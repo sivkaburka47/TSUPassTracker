@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		E6B85EF92D6C530C00B453BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85EF82D6C530C00B453BA /* AppDelegate.swift */; };
 		E6B85EFB2D6C530C00B453BA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85EFA2D6C530C00B453BA /* SceneDelegate.swift */; };
-		E6B85EFD2D6C530C00B453BA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85EFC2D6C530C00B453BA /* LoginViewController.swift */; };
 		E6B85F022D6C530E00B453BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6B85F012D6C530E00B453BA /* Assets.xcassets */; };
 		E6B85F052D6C530E00B453BA /* Base in Resources */ = {isa = PBXBuildFile; fileRef = E6B85F042D6C530E00B453BA /* Base */; };
 		E6B85F0E2D6C5D2B00B453BA /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E6B85F0D2D6C5D2B00B453BA /* SnapKit */; };
@@ -17,16 +16,20 @@
 		E6B85F122D6C5D6200B453BA /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85F112D6C5D6200B453BA /* AppCoordinator.swift */; };
 		E6B85F142D6C5D7500B453BA /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85F132D6C5D7500B453BA /* AuthCoordinator.swift */; };
 		E6B85F162D6C5D8800B453BA /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85F152D6C5D8800B453BA /* MainCoordinator.swift */; };
-		E6B85F192D6C5E1E00B453BA /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85F182D6C5E1E00B453BA /* LoginViewModel.swift */; };
 		E6B85F1F2D6C618B00B453BA /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85F1E2D6C618B00B453BA /* MainViewModel.swift */; };
 		E6B85F212D6C619A00B453BA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85F202D6C619A00B453BA /* MainViewController.swift */; };
+		E6B85F252D6C6EDA00B453BA /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85F242D6C6EDA00B453BA /* LoginCredentials.swift */; };
+		E6B85F282D6C701600B453BA /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85F272D6C701600B453BA /* SignInViewController.swift */; };
+		E6B85F2A2D6C705800B453BA /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85F292D6C705800B453BA /* SignInViewModel.swift */; };
+		E6B85F2C2D6C70F300B453BA /* LoginCredentialsRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85F2B2D6C70F300B453BA /* LoginCredentialsRequestModel.swift */; };
+		E6B85F2F2D6C718800B453BA /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85F2E2D6C718800B453BA /* CustomButton.swift */; };
+		E6B85F312D6C723A00B453BA /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85F302D6C723A00B453BA /* CustomTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E6B85EF52D6C530C00B453BA /* TSUPassTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TSUPassTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6B85EF82D6C530C00B453BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E6B85EFA2D6C530C00B453BA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E6B85EFC2D6C530C00B453BA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = ../LoginViewController.swift; sourceTree = "<group>"; };
 		E6B85F012D6C530E00B453BA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E6B85F042D6C530E00B453BA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E6B85F062D6C530E00B453BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -34,9 +37,14 @@
 		E6B85F112D6C5D6200B453BA /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		E6B85F132D6C5D7500B453BA /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		E6B85F152D6C5D8800B453BA /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
-		E6B85F182D6C5E1E00B453BA /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		E6B85F1E2D6C618B00B453BA /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		E6B85F202D6C619A00B453BA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		E6B85F242D6C6EDA00B453BA /* LoginCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
+		E6B85F272D6C701600B453BA /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		E6B85F292D6C705800B453BA /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		E6B85F2B2D6C70F300B453BA /* LoginCredentialsRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentialsRequestModel.swift; sourceTree = "<group>"; };
+		E6B85F2E2D6C718800B453BA /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		E6B85F302D6C723A00B453BA /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,8 +78,10 @@
 		E6B85EF72D6C530C00B453BA /* TSUPassTracker */ = {
 			isa = PBXGroup;
 			children = (
+				E6B85F322D6C7C4E00B453BA /* Models */,
+				E6B85F2D2D6C716900B453BA /* Components */,
+				E6B85F262D6C700600B453BA /* SignInViewController */,
 				E6B85F1D2D6C5E3F00B453BA /* MainScreen */,
-				E6B85F172D6C5E0E00B453BA /* LoginScreen */,
 				E6B85F1C2D6C5E2D00B453BA /* Coordinators */,
 				E6B85EF82D6C530C00B453BA /* AppDelegate.swift */,
 				E6B85EFA2D6C530C00B453BA /* SceneDelegate.swift */,
@@ -80,16 +90,6 @@
 				E6B85F062D6C530E00B453BA /* Info.plist */,
 			);
 			path = TSUPassTracker;
-			sourceTree = "<group>";
-		};
-		E6B85F172D6C5E0E00B453BA /* LoginScreen */ = {
-			isa = PBXGroup;
-			children = (
-				E6B85EFC2D6C530C00B453BA /* LoginViewController.swift */,
-				E6B85F182D6C5E1E00B453BA /* LoginViewModel.swift */,
-				E6B85F132D6C5D7500B453BA /* AuthCoordinator.swift */,
-			);
-			path = LoginScreen;
 			sourceTree = "<group>";
 		};
 		E6B85F1C2D6C5E2D00B453BA /* Coordinators */ = {
@@ -109,6 +109,34 @@
 				E6B85F152D6C5D8800B453BA /* MainCoordinator.swift */,
 			);
 			path = MainScreen;
+			sourceTree = "<group>";
+		};
+		E6B85F262D6C700600B453BA /* SignInViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E6B85F272D6C701600B453BA /* SignInViewController.swift */,
+				E6B85F292D6C705800B453BA /* SignInViewModel.swift */,
+				E6B85F132D6C5D7500B453BA /* AuthCoordinator.swift */,
+			);
+			path = SignInViewController;
+			sourceTree = "<group>";
+		};
+		E6B85F2D2D6C716900B453BA /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E6B85F2E2D6C718800B453BA /* CustomButton.swift */,
+				E6B85F302D6C723A00B453BA /* CustomTextField.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		E6B85F322D6C7C4E00B453BA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E6B85F2B2D6C70F300B453BA /* LoginCredentialsRequestModel.swift */,
+				E6B85F242D6C6EDA00B453BA /* LoginCredentials.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,16 +215,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E6B85EFD2D6C530C00B453BA /* LoginViewController.swift in Sources */,
 				E6B85F162D6C5D8800B453BA /* MainCoordinator.swift in Sources */,
+				E6B85F2C2D6C70F300B453BA /* LoginCredentialsRequestModel.swift in Sources */,
 				E6B85EF92D6C530C00B453BA /* AppDelegate.swift in Sources */,
+				E6B85F312D6C723A00B453BA /* CustomTextField.swift in Sources */,
 				E6B85F122D6C5D6200B453BA /* AppCoordinator.swift in Sources */,
-				E6B85F192D6C5E1E00B453BA /* LoginViewModel.swift in Sources */,
+				E6B85F2A2D6C705800B453BA /* SignInViewModel.swift in Sources */,
 				E6B85EFB2D6C530C00B453BA /* SceneDelegate.swift in Sources */,
 				E6B85F142D6C5D7500B453BA /* AuthCoordinator.swift in Sources */,
 				E6B85F102D6C5D5600B453BA /* BaseCoordinator.swift in Sources */,
+				E6B85F282D6C701600B453BA /* SignInViewController.swift in Sources */,
 				E6B85F1F2D6C618B00B453BA /* MainViewModel.swift in Sources */,
+				E6B85F252D6C6EDA00B453BA /* LoginCredentials.swift in Sources */,
 				E6B85F212D6C619A00B453BA /* MainViewController.swift in Sources */,
+				E6B85F2F2D6C718800B453BA /* CustomButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +377,7 @@
 				INFOPLIST_FILE = TSUPassTracker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -372,6 +405,7 @@
 				INFOPLIST_FILE = TSUPassTracker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (

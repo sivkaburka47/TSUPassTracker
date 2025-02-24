@@ -25,7 +25,10 @@ final class MainCoordinator: Coordinator {
         let viewModel = MainViewModel()
         viewModel.coordinator = self
         let vc = MainViewController(viewModel: viewModel)
-        navigationController.pushViewController(vc, animated: true)
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController.setViewControllers([vc], animated: true)
+        }
     }
     
 }
