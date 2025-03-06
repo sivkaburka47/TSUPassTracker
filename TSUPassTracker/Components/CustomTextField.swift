@@ -12,7 +12,7 @@ final class CustomTextField: UITextField {
     
     enum PlaceholderText {
         enum Information {
-            case username, email, name
+            case username, name, surname, middleName, group
         }
         
         enum Password {
@@ -158,10 +158,14 @@ private extension CustomTextField {
         switch information {
         case .username:
             return "Логин"
-        case .email:
-            return "Почта"
         case .name:
-            return "ФИО"
+            return "Имя"
+        case .surname:
+            return "Фамилия"
+        case .middleName:
+            return "Отчество"
+        case .group:
+            return "Номер группы"
         }
     }
     

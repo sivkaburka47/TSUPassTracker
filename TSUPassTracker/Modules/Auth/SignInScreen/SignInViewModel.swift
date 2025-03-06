@@ -7,10 +7,23 @@
 
 import Foundation
 
-final class SignInViewModel {
+protocol SignInViewModelProtocol {
+    var onSuccess: (() -> Void)? { get set }
+    var onError: ((String) -> Void)? { get set }
+    var onSignUp: (() -> Void)? { get set }
+    func updateUsername(_ username: String)
+    func updatePassword(_ password: String)
+    func signInButtonTapped()
+}
+
+final class SignInViewModel: SignInViewModelProtocol {
     weak var coordinator: AuthCoordinator?
+    private let authService: AuthServiceProtocol
     
-    var isSignInButtonActive: ((Bool) -> Void)?
+    var onSuccess: (() -> Void)?
+    var onError: ((String) -> Void)?
+    var onSignUp: (() -> Void)?
+    
     
     var credentials = LoginCredentials()
     
@@ -24,41 +37,43 @@ final class SignInViewModel {
             validateFields()
         }
     }
-
-    init() {
+    
+    var isSignInButtonActive: ((Bool) -> Void)?
+    
+    init(authService: AuthServiceProtocol, coordinator: AuthCoordinator?) {
+        self.authService = authService
+        self.coordinator = coordinator
     }
     
-    func handleLogin() {
-        coordinator?.completeAuthentication()
-    }
-    
-    // MARK: - Public Methods
     func updateUsername(_ username: String) {
         self.credentials.username = username
         isUsernameValid = isValidLatinCharacters(username) && !username.isEmpty
         validateFields()
     }
-
+    
     func updatePassword(_ password: String) {
         self.credentials.password = password
         isPasswordValid = isValidLatinCharacters(password) && !password.isEmpty
         validateFields()
     }
     
-    func signInButtonTapped() async {
+    func signInButtonTapped()  {
         let requestBody = LoginCredentialsRequestModel(
             username: credentials.username,
             password: credentials.password
         )
         
         do {
-            handleLogin()
+            onSuccess?()
         } catch {
             print(error)
         }
     }
     
-    // MARK: - Private Methods
+    func navigateSignUpButtonTapped() {
+        onSignUp?()
+    }
+    
     private func isValidLatinCharacters(_ input: String) -> Bool {
         let regularExpression = "^[A-Za-z0-9#?!@$%^&*-]+$"
         let predicate = NSPredicate(format: "SELF MATCHES %@", regularExpression)
@@ -70,4 +85,3 @@ final class SignInViewModel {
         isSignInButtonActive?(isValid)
     }
 }
-

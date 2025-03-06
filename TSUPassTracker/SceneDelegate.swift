@@ -10,7 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var appCoordinator: AppCoordinator?
+    private var rootCoordinator: RootCoordinator?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
@@ -18,14 +18,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         window.overrideUserInterfaceStyle = .light
-        let navigationController = UINavigationController()
+        let navController = UINavigationController()
         
-        window.rootViewController = navigationController
+        window.rootViewController = navController
         self.window = window
         window.makeKeyAndVisible()
         
-        appCoordinator = AppCoordinator(navigationController: navigationController)
-        appCoordinator?.start()
+        let authService = AuthService()
+        rootCoordinator = RootCoordinator(
+            navigationController: navController,
+            authService: authService
+        )
+        rootCoordinator?.start(animated: false)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

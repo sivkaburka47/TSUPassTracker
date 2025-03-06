@@ -7,8 +7,6 @@
 
 import Foundation
 
-final class MainViewModel {
-    weak var coordinator: MainCoordinator?
+final class MainScreenViewModel {
     
 }
-
