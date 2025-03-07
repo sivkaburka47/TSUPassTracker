@@ -61,6 +61,7 @@ final class SignUpViewModel: SignUpViewModelProtocol {
     }
     var isPasswordValid: Bool = false {
         didSet {
+            validateRepeatedPassword()
             validateFields()
         }
     }
@@ -111,12 +112,14 @@ final class SignUpViewModel: SignUpViewModelProtocol {
     func updatePassword(_ password: String) {
         self.credentials.password = password
         isPasswordValid = isValidLatinCharacters(password) && !password.isEmpty
+        validateRepeatedPassword()
         validateFields()
     }
     
     func updateRepeatedPassword(_ repeatedPassword: String) {
         self.credentials.repeatedPassword = repeatedPassword
         isRepeatedPasswordValid = (repeatedPassword == credentials.password)
+        validateRepeatedPassword()
         validateFields()
     }
     
@@ -136,12 +139,15 @@ final class SignUpViewModel: SignUpViewModelProtocol {
                 }
             } catch {
                 DispatchQueue.main.async {
-                    print(error)
+                    self.onError?(error.localizedDescription)
                 }
             }
         }
     }
     
+    private func validateRepeatedPassword() {
+        isRepeatedPasswordValid = (credentials.repeatedPassword == credentials.password)
+    }
     
     private func isValidLatinCharacters(_ input: String) -> Bool {
         let regularExpression = "^[A-Za-z0-9#?!@$%^&*-]+$"

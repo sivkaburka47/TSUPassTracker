@@ -74,7 +74,7 @@ final class SignInViewModel: SignInViewModelProtocol {
                 }
             } catch {
                 DispatchQueue.main.async {
-                    print(error)
+                    self.onError?(error.localizedDescription)
                 }
             }
         }

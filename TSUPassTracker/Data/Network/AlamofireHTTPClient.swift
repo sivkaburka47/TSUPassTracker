@@ -34,10 +34,32 @@ final class AlamofireHTTPClient: HTTPClient {
                     case .success(let decodedData):
                         continuation.resume(returning: decodedData)
                     case .failure(let error):
-                        if let statusCode = response.response?.statusCode, statusCode == 401 {
-                            self.handleUnauthorizedError()
+                        if let statusCode = response.response?.statusCode {
+                            if statusCode == 500 {
+                                continuation.resume(throwing: NSError(domain: "", code: statusCode, userInfo: [NSLocalizedDescriptionKey: "Упс, проблема с состоянием сервера."]))
+                                return
+                            }
+                            if statusCode == 401 {
+                                self.handleUnauthorizedError()
+                                continuation.resume(throwing: error)
+                                return
+                            }
                         }
-                        continuation.resume(throwing: error)
+                        
+                        if let afError = error.asAFError, afError.isSessionTaskError,
+                           let underlyingError = afError.underlyingError as NSError?,
+                           underlyingError.domain == NSURLErrorDomain,
+                           underlyingError.code == -1004 {
+                            continuation.resume(throwing: NSError(domain: "", code: -1004, userInfo: [NSLocalizedDescriptionKey: "Не удалось подключиться к серверу. Проверьте подключение к интернету или попробуйте позже."]))
+                            return
+                        }
+                        
+                        if let data = response.data, let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
+                            let errorMessage = self.extractErrorMessage(from: errorResponse)
+                            continuation.resume(throwing: NSError(domain: "", code: errorResponse.status, userInfo: [NSLocalizedDescriptionKey: errorMessage]))
+                        } else {
+                            continuation.resume(throwing: error)
+                        }
                     }
                 }
         }
@@ -56,12 +78,47 @@ final class AlamofireHTTPClient: HTTPClient {
                     case .success:
                         continuation.resume()
                     case .failure(let error):
-                        if let statusCode = response.response?.statusCode, statusCode == 401 {
-                            self.handleUnauthorizedError()
+                        if let statusCode = response.response?.statusCode {
+                            if statusCode == 500 {
+                                continuation.resume(throwing: NSError(domain: "", code: statusCode, userInfo: [NSLocalizedDescriptionKey: "Упс, проблема с состоянием сервера."]))
+                                return
+                            }
+                            if statusCode == 401 {
+                                self.handleUnauthorizedError()
+                                continuation.resume(throwing: error)
+                                return
+                            }
                         }
-                        continuation.resume(throwing: error)
+                        
+                        if let afError = error.asAFError, afError.isSessionTaskError,
+                           let underlyingError = afError.underlyingError as NSError?,
+                           underlyingError.domain == NSURLErrorDomain,
+                           underlyingError.code == -1004 {
+                            continuation.resume(throwing: NSError(domain: "", code: -1004, userInfo: [NSLocalizedDescriptionKey: "Не удалось подключиться к серверу. Проверьте подключение к интернету или попробуйте позже."]))
+                            return
+                        }
+                        
+                        if let data = response.data, let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
+                            let errorMessage = self.extractErrorMessage(from: errorResponse)
+                            continuation.resume(throwing: NSError(domain: "", code: errorResponse.status, userInfo: [NSLocalizedDescriptionKey: errorMessage]))
+                        } else {
+                            continuation.resume(throwing: error)
+                        }
                     }
                 }
+        }
+    }
+    
+    private func extractErrorMessage(from errorResponse: ErrorResponse) -> String {
+        if let message = errorResponse.message {
+            return message
+        } else if let errors = errorResponse.errors {
+            let errorMessages = errors.flatMap { $0.value }.joined(separator: "\n")
+            return errorMessages
+        } else if let title = errorResponse.title {
+            return title
+        } else {
+            return "Произошла неизвестная ошибка."
         }
     }
     

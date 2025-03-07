@@ -234,6 +234,20 @@ private extension SignUpViewController {
         viewModel.isSignUpButtonActive = { [weak self] isActive in
             self?.signUpButton.toggleStyle(isActive ? .filled : .inactive)
         }
+        
+        viewModel.onError = { [weak self] error in
+            self?.handleError(error)
+        }
+    }
+    
+    private func handleError(_ error: String) {
+        let alert = UIAlertController(
+            title: "Ошибка",
+            message: error,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 

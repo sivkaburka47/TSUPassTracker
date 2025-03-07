@@ -30,6 +30,8 @@
 		E657721C2D7AE5C200C5F035 /* SignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E657721B2D7AE5C200C5F035 /* SignUpUseCase.swift */; };
 		E657721E2D7AE5F100C5F035 /* SignInUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E657721D2D7AE5F100C5F035 /* SignInUseCase.swift */; };
 		E65772202D7AE60900C5F035 /* LogoutUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E657721F2D7AE60900C5F035 /* LogoutUseCase.swift */; };
+		E65772222D7B22D300C5F035 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65772212D7B22D300C5F035 /* ErrorResponse.swift */; };
+		E65772242D7B258F00C5F035 /* ValidationErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65772232D7B258F00C5F035 /* ValidationErrorResponse.swift */; };
 		E65CC52E2D79827E00010AAD /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC52D2D79827E00010AAD /* ProfileCoordinator.swift */; };
 		E65CC5302D79828A00010AAD /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC52F2D79828A00010AAD /* MainCoordinator.swift */; };
 		E65CC5322D79829900010AAD /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC5312D79829900010AAD /* ProfileViewModel.swift */; };
@@ -83,6 +85,8 @@
 		E657721B2D7AE5C200C5F035 /* SignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUseCase.swift; sourceTree = "<group>"; };
 		E657721D2D7AE5F100C5F035 /* SignInUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUseCase.swift; sourceTree = "<group>"; };
 		E657721F2D7AE60900C5F035 /* LogoutUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutUseCase.swift; sourceTree = "<group>"; };
+		E65772212D7B22D300C5F035 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		E65772232D7B258F00C5F035 /* ValidationErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationErrorResponse.swift; sourceTree = "<group>"; };
 		E65CC52D2D79827E00010AAD /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		E65CC52F2D79828A00010AAD /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		E65CC5312D79829900010AAD /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
@@ -382,6 +386,8 @@
 				E65CC5432D7A247F00010AAD /* UserRegisterModel.swift */,
 				E65771FD2D7AE0D800C5F035 /* EmptyRequestModel.swift */,
 				E65772112D7AE44700C5F035 /* UserAuthResponseModel.swift */,
+				E65772212D7B22D300C5F035 /* ErrorResponse.swift */,
+				E65772232D7B258F00C5F035 /* ValidationErrorResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -505,8 +511,10 @@
 				E65772202D7AE60900C5F035 /* LogoutUseCase.swift in Sources */,
 				E65CC5322D79829900010AAD /* ProfileViewModel.swift in Sources */,
 				E65772122D7AE44700C5F035 /* UserAuthResponseModel.swift in Sources */,
+				E65772222D7B22D300C5F035 /* ErrorResponse.swift in Sources */,
 				E65CC53C2D79AD6F00010AAD /* SignUpCoordinator.swift in Sources */,
 				E657720C2D7AE33D00C5F035 /* SignUpRepositoryImpl.swift in Sources */,
+				E65772242D7B258F00C5F035 /* ValidationErrorResponse.swift in Sources */,
 				E65772092D7AE2F700C5F035 /* UserRegisterEndpoint.swift in Sources */,
 				E65771FE2D7AE0D800C5F035 /* EmptyRequestModel.swift in Sources */,
 				E65CC52E2D79827E00010AAD /* ProfileCoordinator.swift in Sources */,
