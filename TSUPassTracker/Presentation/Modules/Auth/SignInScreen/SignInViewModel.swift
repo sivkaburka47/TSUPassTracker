@@ -20,6 +20,8 @@ final class SignInViewModel: SignInViewModelProtocol {
     weak var coordinator: AuthCoordinator?
     private let authService: AuthServiceProtocol
     
+    private let signInUseCase: SignInUseCase
+    
     var onSuccess: (() -> Void)?
     var onError: ((String) -> Void)?
     var onSignUp: (() -> Void)?
@@ -43,6 +45,7 @@ final class SignInViewModel: SignInViewModelProtocol {
     init(authService: AuthServiceProtocol, coordinator: AuthCoordinator?) {
         self.authService = authService
         self.coordinator = coordinator
+        self.signInUseCase = SignInUseCaseImpl.create()
     }
     
     func updateUsername(_ username: String) {
@@ -57,16 +60,23 @@ final class SignInViewModel: SignInViewModelProtocol {
         validateFields()
     }
     
-    func signInButtonTapped()  {
-        let requestBody = LoginCredentialsRequestModel(
-            username: credentials.username,
-            password: credentials.password
-        )
-        
-        do {
-            onSuccess?()
-        } catch {
-            print(error)
+    func signInButtonTapped() {
+        Task {
+            let requestBody = LoginCredentialsRequestModel(
+                login: credentials.username,
+                password: credentials.password
+            )
+            
+            do {
+                try await signInUseCase.execute(request: requestBody)
+                DispatchQueue.main.async {
+                    self.onSuccess?()
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    print(error)
+                }
+            }
         }
     }
     

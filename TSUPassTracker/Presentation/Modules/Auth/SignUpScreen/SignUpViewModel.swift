@@ -27,6 +27,8 @@ final class SignUpViewModel: SignUpViewModelProtocol {
     var onSuccess: (() -> Void)?
     var onError: ((String) -> Void)?
     
+    private let signUpUseCase: SignUpUseCase
+    
     
     var credentials = RegisterCredentials()
     
@@ -73,6 +75,7 @@ final class SignUpViewModel: SignUpViewModelProtocol {
     init(authService: AuthServiceProtocol, coordinator: AuthCoordinator?) {
         self.authService = authService
         self.coordinator = coordinator
+        self.signUpUseCase = SignUpUseCaseImpl.create()
     }
     
     func updateName(_ name: String) {
@@ -118,17 +121,24 @@ final class SignUpViewModel: SignUpViewModelProtocol {
     }
     
     func signUpButtonTapped()  {
-        let requestBody = UserRegisterModel(
-            name: "\(credentials.surname) \(credentials.name) \(credentials.middlename)",
-            username: credentials.username,
-            password: credentials.password,
-            group: credentials.group
-        )
-        
-        do {
-            onSuccess?()
-        } catch {
-            print(error)
+        Task {
+            let requestBody = UserRegisterModel(
+                name: "\(credentials.surname) \(credentials.name) \(credentials.middlename)",
+                login: credentials.username,
+                password: credentials.password,
+                group: credentials.group
+            )
+            
+            do {
+                try await signUpUseCase.execute(request: requestBody)
+                DispatchQueue.main.async {
+                    self.onSuccess?()
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    print(error)
+                }
+            }
         }
     }
     

@@ -7,7 +7,7 @@
 
 struct UserRegisterModel: Codable {
     let name: String
-    let username: String
+    let login: String
     let password: String
     let group: String
 }

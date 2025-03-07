@@ -7,6 +7,6 @@
 
 
 struct LoginCredentialsRequestModel: Codable {
-    let username: String
+    let login: String
     let password: String
 }
