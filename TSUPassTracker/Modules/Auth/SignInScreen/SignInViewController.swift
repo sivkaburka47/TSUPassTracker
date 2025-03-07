@@ -39,6 +39,10 @@ final class SignInViewController: UIViewController, UITextFieldDelegate {
         setup()
         bindToViewModel()
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 // MARK: - Setup
@@ -49,6 +53,7 @@ private extension SignInViewController {
         configureStackView()
         setupView()
         addTapGestureToDismissKeyboard()
+        setupKeyboardObservers()
     }
     
     private func setupScrollView() {
@@ -57,7 +62,7 @@ private extension SignInViewController {
         scrollView.backgroundColor = .clear
         scrollView.snp.makeConstraints { make in
             make.leading.trailing.top.equalToSuperview()
-            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-Constants.horizontalEdgesConstraintsValue)
+            make.bottom.equalToSuperview().offset(-Constants.horizontalEdgesConstraintsValue)
         }
     }
     
@@ -147,10 +152,10 @@ private extension SignInViewController {
 
     
     func updateTextFieldValidation() {
-        loginTextField.layer.borderColor = viewModel.isUsernameValid ? UIColor.clear.cgColor : UIColor.white.cgColor
+        loginTextField.layer.borderColor = viewModel.isUsernameValid ? UIColor.clear.cgColor : UIColor.red.cgColor
         loginTextField.layer.borderWidth = viewModel.isUsernameValid ? 0 : 1
         
-        passwordTextField.layer.borderColor = viewModel.isPasswordValid ? UIColor.clear.cgColor : UIColor.white.cgColor
+        passwordTextField.layer.borderColor = viewModel.isPasswordValid ? UIColor.clear.cgColor : UIColor.red.cgColor
         passwordTextField.layer.borderWidth = viewModel.isPasswordValid ? 0 : 1
     }
     
@@ -197,6 +202,49 @@ private extension SignInViewController {
         }
     }
 }
+
+extension SignInViewController {
+    func setupKeyboardObservers() {
+        NotificationCenter.default.addObserver(self,
+                                             selector: #selector(keyboardWillShow),
+                                             name: UIResponder.keyboardWillShowNotification,
+                                             object: nil)
+        NotificationCenter.default.addObserver(self,
+                                             selector: #selector(keyboardWillHide),
+                                             name: UIResponder.keyboardWillHideNotification,
+                                             object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let activeField = view.findFirstResponder() as? UITextField else {
+            return
+        }
+        
+        let keyboardHeight = keyboardFrame.height
+        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+        
+        let textFieldFrame = activeField.convert(activeField.bounds, to: scrollView)
+        let bottomOfTextField = textFieldFrame.maxY
+        
+        let visibleHeight = scrollView.frame.height - keyboardHeight
+        
+        if bottomOfTextField > visibleHeight {
+            let scrollPoint = CGPoint(x: 0, y: bottomOfTextField - visibleHeight + Constants.stackViewSpacing)
+            scrollView.setContentOffset(scrollPoint, animated: true)
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        let contentInsets = UIEdgeInsets.zero
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+    }
+}
+
 
 // MARK: - Constants
 private extension SignInViewController {

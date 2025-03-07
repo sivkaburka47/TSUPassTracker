@@ -18,6 +18,7 @@
 		E65CC53E2D79B60000010AAD /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC53D2D79B60000010AAD /* AuthService.swift */; };
 		E65CC5422D7A23B500010AAD /* RegisterCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC5412D7A23B500010AAD /* RegisterCredentials.swift */; };
 		E65CC5442D7A247F00010AAD /* UserRegisterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC5432D7A247F00010AAD /* UserRegisterModel.swift */; };
+		E65CC5462D7AB66E00010AAD /* UIView + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC5452D7AB66E00010AAD /* UIView + ext.swift */; };
 		E67992652D797070009C33CC /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67992642D797070009C33CC /* AuthCoordinator.swift */; };
 		E6B85EF92D6C530C00B453BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85EF82D6C530C00B453BA /* AppDelegate.swift */; };
 		E6B85EFB2D6C530C00B453BA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B85EFA2D6C530C00B453BA /* SceneDelegate.swift */; };
@@ -49,6 +50,7 @@
 		E65CC53D2D79B60000010AAD /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		E65CC5412D7A23B500010AAD /* RegisterCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCredentials.swift; sourceTree = "<group>"; };
 		E65CC5432D7A247F00010AAD /* UserRegisterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegisterModel.swift; sourceTree = "<group>"; };
+		E65CC5452D7AB66E00010AAD /* UIView + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + ext.swift"; sourceTree = "<group>"; };
 		E67992642D797070009C33CC /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		E6B85EF52D6C530C00B453BA /* TSUPassTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TSUPassTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6B85EF82D6C530C00B453BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				E6B85F012D6C530E00B453BA /* Assets.xcassets */,
 				E6B85F032D6C530E00B453BA /* LaunchScreen.storyboard */,
 				E6B85F062D6C530E00B453BA /* Info.plist */,
+				E65CC5452D7AB66E00010AAD /* UIView + ext.swift */,
 			);
 			path = TSUPassTracker;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E65CC5462D7AB66E00010AAD /* UIView + ext.swift in Sources */,
 				E6B85F162D6C5D8800B453BA /* MainTabBarCoordinator.swift in Sources */,
 				E65CC53E2D79B60000010AAD /* AuthService.swift in Sources */,
 				E6B85F2C2D6C70F300B453BA /* LoginCredentialsRequestModel.swift in Sources */,

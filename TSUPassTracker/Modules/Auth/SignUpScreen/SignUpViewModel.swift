@@ -10,8 +10,13 @@ import Foundation
 protocol SignUpViewModelProtocol {
     var onSuccess: (() -> Void)? { get set }
     var onError: ((String) -> Void)? { get set }
+    func updateName(_ name: String)
+    func updateSurname(_ surname: String)
+    func updateMiddlename(_ middlename: String)
+    func updateGroup(_ group: String)
     func updateUsername(_ username: String)
     func updatePassword(_ password: String)
+    func updateRepeatedPassword(_ password: String)
     func signUpButtonTapped()
 }
 
@@ -72,19 +77,19 @@ final class SignUpViewModel: SignUpViewModelProtocol {
     
     func updateName(_ name: String) {
         self.credentials.name = name
-        isUsernameValid = !name.isEmpty
+        isNameValid = !name.isEmpty
         validateFields()
     }
     
     func updateSurname(_ surname: String) {
         self.credentials.surname = surname
-        isUsernameValid = !surname.isEmpty
+        isSurnameValid = !surname.isEmpty
         validateFields()
     }
     
     func updateMiddlename(_ middlename: String) {
         self.credentials.username = middlename
-        isUsernameValid = !middlename.isEmpty
+        isMiddlenameValid = !middlename.isEmpty
         validateFields()
     }
     

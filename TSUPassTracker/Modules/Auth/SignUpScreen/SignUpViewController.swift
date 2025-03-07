@@ -26,12 +26,11 @@ final class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     private let signUpButton = CustomButton(style: .inactive)
     
+    
     init(viewModel: SignUpViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
-    
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -41,6 +40,11 @@ final class SignUpViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         setup()
         bindToViewModel()
+        
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -52,6 +56,7 @@ private extension SignUpViewController {
         configureStackView()
         setupView()
         addTapGestureToDismissKeyboard()
+        setupKeyboardObservers()
     }
     
     private func setupScrollView() {
@@ -60,7 +65,7 @@ private extension SignUpViewController {
         scrollView.backgroundColor = .clear
         scrollView.snp.makeConstraints { make in
             make.leading.trailing.top.equalToSuperview()
-            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-Constants.horizontalEdgesConstraintsValue)
+            make.bottom.equalToSuperview().offset(-Constants.horizontalEdgesConstraintsValue)
         }
     }
     
@@ -151,28 +156,27 @@ private extension SignUpViewController {
         }
     }
     
-
     
     func updateTextFieldValidation() {
-        nameTextField.layer.borderColor = viewModel.isNameValid ? UIColor.clear.cgColor : UIColor.white.cgColor
+        nameTextField.layer.borderColor = viewModel.isNameValid ? UIColor.clear.cgColor : UIColor.red.cgColor
         nameTextField.layer.borderWidth = viewModel.isNameValid ? 0 : 1
         
-        surnameTextField.layer.borderColor = viewModel.isSurnameValid ? UIColor.clear.cgColor : UIColor.white.cgColor
+        surnameTextField.layer.borderColor = viewModel.isSurnameValid ? UIColor.clear.cgColor : UIColor.red.cgColor
         surnameTextField.layer.borderWidth = viewModel.isSurnameValid ? 0 : 1
         
-        middlenameTextField.layer.borderColor = viewModel.isMiddlenameValid ? UIColor.clear.cgColor : UIColor.white.cgColor
+        middlenameTextField.layer.borderColor = viewModel.isMiddlenameValid ? UIColor.clear.cgColor : UIColor.red.cgColor
         middlenameTextField.layer.borderWidth = viewModel.isMiddlenameValid ? 0 : 1
         
-        groupTextField.layer.borderColor = viewModel.isGroupValid ? UIColor.clear.cgColor : UIColor.white.cgColor
+        groupTextField.layer.borderColor = viewModel.isGroupValid ? UIColor.clear.cgColor : UIColor.red.cgColor
         groupTextField.layer.borderWidth = viewModel.isGroupValid ? 0 : 1
         
-        loginTextField.layer.borderColor = viewModel.isUsernameValid ? UIColor.clear.cgColor : UIColor.white.cgColor
+        loginTextField.layer.borderColor = viewModel.isUsernameValid ? UIColor.clear.cgColor : UIColor.red.cgColor
         loginTextField.layer.borderWidth = viewModel.isUsernameValid ? 0 : 1
         
-        passwordTextField.layer.borderColor = viewModel.isPasswordValid ? UIColor.clear.cgColor : UIColor.white.cgColor
+        passwordTextField.layer.borderColor = viewModel.isPasswordValid ? UIColor.clear.cgColor : UIColor.red.cgColor
         passwordTextField.layer.borderWidth = viewModel.isPasswordValid ? 0 : 1
         
-        repeatPasswordTextField.layer.borderColor = viewModel.isRepeatedPasswordValid ? UIColor.clear.cgColor : UIColor.white.cgColor
+        repeatPasswordTextField.layer.borderColor = viewModel.isRepeatedPasswordValid ? UIColor.clear.cgColor : UIColor.red.cgColor
         repeatPasswordTextField.layer.borderWidth = viewModel.isRepeatedPasswordValid ? 0 : 1
     }
     
@@ -230,6 +234,48 @@ private extension SignUpViewController {
         viewModel.isSignUpButtonActive = { [weak self] isActive in
             self?.signUpButton.toggleStyle(isActive ? .filled : .inactive)
         }
+    }
+}
+
+extension SignUpViewController {
+    func setupKeyboardObservers() {
+        NotificationCenter.default.addObserver(self,
+                                             selector: #selector(keyboardWillShow),
+                                             name: UIResponder.keyboardWillShowNotification,
+                                             object: nil)
+        NotificationCenter.default.addObserver(self,
+                                             selector: #selector(keyboardWillHide),
+                                             name: UIResponder.keyboardWillHideNotification,
+                                             object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let activeField = view.findFirstResponder() as? UITextField else {
+            return
+        }
+        
+        let keyboardHeight = keyboardFrame.height
+        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+        
+        let textFieldFrame = activeField.convert(activeField.bounds, to: scrollView)
+        let bottomOfTextField = textFieldFrame.maxY
+        
+        let visibleHeight = scrollView.frame.height - keyboardHeight
+        
+        if bottomOfTextField > visibleHeight {
+            let scrollPoint = CGPoint(x: 0, y: bottomOfTextField - visibleHeight + Constants.stackViewSpacing)
+            scrollView.setContentOffset(scrollPoint, animated: true)
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        let contentInsets = UIEdgeInsets.zero
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
     }
 }
 
