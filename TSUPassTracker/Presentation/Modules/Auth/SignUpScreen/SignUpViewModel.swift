@@ -92,7 +92,7 @@ final class SignUpViewModel: SignUpViewModelProtocol {
     }
     
     func updateMiddlename(_ middlename: String) {
-        self.credentials.username = middlename
+        self.credentials.middlename = middlename
         isMiddlenameValid = !middlename.isEmpty
         validateFields()
     }

@@ -40,6 +40,11 @@ final class SignInViewController: UIViewController, UITextFieldDelegate {
         bindToViewModel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }

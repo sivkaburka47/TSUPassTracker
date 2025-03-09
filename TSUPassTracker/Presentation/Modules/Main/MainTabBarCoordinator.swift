@@ -20,6 +20,17 @@ final class MainTabBarCoordinator: ParentCoordinator {
         self.tabBarController = UITabBarController()
         self.authService = authService
         setupTabBarAppearance()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleUnauthorizedError),
+            name: .unauthorizedErrorOccurred,
+            object: nil
+        )
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .unauthorizedErrorOccurred, object: nil)
     }
     
     func start(animated: Bool) {
@@ -92,6 +103,15 @@ final class MainTabBarCoordinator: ParentCoordinator {
         tabBarController.tabBar.layer.shadowOffset = CGSize(width: 0, height: -2)
         tabBarController.tabBar.layer.shadowOpacity = 0.1
         tabBarController.tabBar.layer.shadowRadius = 4
+    }
+    
+    @objc private func handleUnauthorizedError() {
+        authService.logout()
+        parentCoordinator?.childDidFinish(self)
+        
+        if let rootCoordinator = parentCoordinator as? RootCoordinator {
+            rootCoordinator.startAuthFlow()
+        }
     }
     
     

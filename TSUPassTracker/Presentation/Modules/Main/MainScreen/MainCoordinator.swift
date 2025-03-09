@@ -13,7 +13,6 @@ final class MainScreenCoordinator: ChildCoordinator {
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-        navigationController.isNavigationBarHidden = true
     }
     
     func start(animated: Bool) {
@@ -21,4 +20,5 @@ final class MainScreenCoordinator: ChildCoordinator {
         let vc = MainScreenViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: animated)
     }
+
 }

@@ -27,6 +27,13 @@ final class ProfileCoordinator: ChildCoordinator {
     func logout() {
         authService.logout()
         parentCoordinator?.childDidFinish(self)
-        (parentCoordinator as? RootCoordinator)?.startAuthFlow()
+        if let mainTabBarCoordinator = parentCoordinator as? MainTabBarCoordinator,
+           let rootCoordinator = mainTabBarCoordinator.parentCoordinator as? RootCoordinator {
+            rootCoordinator.startAuthFlow()
+        }
+    }
+    
+    @objc private func handleUnauthorizedError() {
+        logout()
     }
 }
