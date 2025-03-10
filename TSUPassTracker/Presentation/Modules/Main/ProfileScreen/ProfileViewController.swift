@@ -39,6 +39,16 @@ final class ProfileViewController: UIViewController {
         viewModel.onDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
     // MARK: - Setup
     private func setupUI() {
         view.backgroundColor = .white
@@ -80,7 +90,7 @@ extension ProfileViewController {
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
-            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(24)
         }
     }
     
