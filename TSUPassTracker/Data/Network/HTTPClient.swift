@@ -8,6 +8,6 @@
 protocol HTTPClient {
     func sendRequest<T: Decodable, U: Encodable>(endpoint: APIEndpoint, requestBody: U?) async throws -> T
     func sendRequestWithoutResponse<U: Encodable>(endpoint: APIEndpoint, requestBody: U?) async throws
-    func sendMultipartRequest<T: Decodable>(endpoint: APIEndpoint, multipartData: RequestCreateDTO) async throws -> T
+    func sendMultipartRequest<T: Decodable, U: MultipartDataConvertible>(endpoint: APIEndpoint, multipartData: U) async throws -> T
 }
 

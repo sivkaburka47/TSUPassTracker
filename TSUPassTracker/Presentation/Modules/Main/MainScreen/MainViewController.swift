@@ -97,7 +97,7 @@ final class MainScreenViewController: UIViewController {
             
             self.stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
             
-            if userRequests.listLightRequests.isEmpty {
+            if userRequests.listLightRequests.count == 0 {
                 let emptyLabel = UILabel()
                 emptyLabel.text = "Пока здесь пусто 🧐\nСоздайте свою первую заявку!"
                 emptyLabel.font = .systemFont(ofSize: 18, weight: .medium)
@@ -107,6 +107,13 @@ final class MainScreenViewController: UIViewController {
                 
                 let emptyView = UIView()
                 emptyView.addSubview(emptyLabel)
+                
+                emptyView.snp.makeConstraints {
+                    $0.height.equalTo(200)
+                }
+                
+                stackView.addArrangedSubview(emptyView)
+                
                 emptyLabel.snp.makeConstraints {
                     $0.centerY.equalToSuperview()
                     $0.leading.trailing.equalToSuperview().inset(20)

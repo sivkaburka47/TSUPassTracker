@@ -7,5 +7,6 @@
 
 protocol GetUserAllRequestsRepository {
     func getUserRequests() async throws -> ListLightRequestsDTO
+    func getRequestById(requestId: String) async throws -> RequestModel
 }
 

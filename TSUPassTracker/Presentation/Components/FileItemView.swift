@@ -20,6 +20,7 @@ final class FileItemView: UIView {
     private var onDownload: ((URL) -> Void)?
     
     init(fileData: FileData,
+         isDeletable: Bool,
          onDelete: @escaping () -> Void,
          onDownload: @escaping (URL) -> Void) {
         self.fileData = fileData
@@ -30,6 +31,7 @@ final class FileItemView: UIView {
         configure(with: fileData)
         setupGestures()
         setupDeleteButton()
+        deleteButton.isHidden = !isDeletable
     }
     
     required init?(coder: NSCoder) {

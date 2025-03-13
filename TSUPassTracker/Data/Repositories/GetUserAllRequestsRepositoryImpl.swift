@@ -16,5 +16,10 @@ class GetUserAllRequestsRepositoryImpl: GetUserAllRequestsRepository {
         let endpoint = UserAllRequestsEndpoint()
         return try await httpClient.sendRequest(endpoint: endpoint, requestBody: nil as EmptyRequestModel?)
     }
+    
+    func getRequestById(requestId: String) async throws -> RequestModel {
+        let endpoint = GetRequestByIdEndpoint(id: requestId)
+        return try await httpClient.sendRequest(endpoint: endpoint, requestBody: nil as EmptyRequestModel?)
+    }
 }
 

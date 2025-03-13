@@ -22,7 +22,7 @@ struct FileData: Equatable {
         case "jpg", "jpeg", "png": return "photo"
         case "doc", "docx": return "doc.text"
         case "xls", "xlsx": return "chart.bar.doc.horizontal"
-        default: return "doc"
+        default: return "doc" 
         }
     }
     

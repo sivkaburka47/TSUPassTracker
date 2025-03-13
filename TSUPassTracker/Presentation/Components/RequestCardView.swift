@@ -54,20 +54,14 @@ final class RequestCardView: UIView {
 
     private lazy var editButton: CustomButton = {
         let button = CustomButton(style: .filled)
-        button.setTitle("Редактировать", for: .normal)
+        button.setTitle("Посмотреть детали", for: .normal)
         button.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
         return button
     }()
     
-    private lazy var downloadButton: CustomButton = {
-        let button = CustomButton(style: .filled)
-        button.setTitle("Скачать файлы", for: .normal)
-        button.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
-        return button
-    }()
     
     private lazy var buttonsStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [editButton, downloadButton])
+        let stack = UIStackView(arrangedSubviews: [editButton])
         stack.axis = .vertical
         stack.spacing = 8
         stack.alpha = 0

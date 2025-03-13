@@ -14,6 +14,7 @@ final class MainScreenViewModel {
     var userRequests = ListLightRequests()
     
     var showAddRequest: (() -> Void)?
+    var showEditRequest: ((String) -> Void)?
     
     var onDidLoadUserRequests: ((ListLightRequests) -> Void)?
     
@@ -96,12 +97,9 @@ final class MainScreenViewModel {
     
     func editRequest(id: String) {
         print("Редактирование запроса с ID: \(id)")
-        // Перенаправление на модальный экран редактирования заявки
-    }
-    
-    func saveFiles(id: String) {
-        print("Скачивание файлов для запроса с ID: \(id)")
-        // Логика скачивания
+        DispatchQueue.main.async {
+            self.showEditRequest?(id)
+        }
     }
     
     func addNote() {

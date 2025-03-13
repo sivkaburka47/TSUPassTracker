@@ -18,6 +18,8 @@ final class MainScreenCoordinator: ChildCoordinator {
     func start(animated: Bool) {
         let viewModel = MainScreenViewModel()
         viewModel.showAddRequest = { [weak self] in self?.showAddRequest() }
+        viewModel.showEditRequest = { [weak self] requestId in self?.showEditRequest(requestId: requestId)
+        }
         let vc = MainScreenViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: animated)
     }
@@ -25,6 +27,17 @@ final class MainScreenCoordinator: ChildCoordinator {
     func showAddRequest() {
         let addNav = UINavigationController()
         let coordinator = AddRequestCoordinator(navigationController: addNav)
+        coordinator.parentCoordinator = self.parentCoordinator
+        parentCoordinator?.addChild(coordinator)
+        
+        if let presentingVC = navigationController.topViewController {
+            coordinator.start(animated: true)
+            presentingVC.present(addNav, animated: true)
+        }
+    }
+    func showEditRequest(requestId: String) {
+        let addNav = UINavigationController()
+        let coordinator = AddRequestCoordinator(navigationController: addNav, requestId: requestId)
         coordinator.parentCoordinator = self.parentCoordinator
         parentCoordinator?.addChild(coordinator)
         

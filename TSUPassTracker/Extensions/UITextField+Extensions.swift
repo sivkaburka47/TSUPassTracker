@@ -14,18 +14,26 @@ extension UITextField {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .inline
-        datePicker.maximumDate = Date()
-        
+        datePicker.locale = Locale(identifier: "ru_RU")
+
         self.inputView = datePicker
-        
+
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
-        
+
         let doneButton = UIBarButtonItem(title: "Готово", style: .plain, target: target, action: selector)
+        let clearButton = UIBarButtonItem(title: "Очистить", style: .plain, target: target, action: #selector(clearDate))
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolbar.setItems([flexibleSpace, doneButton], animated: true)
+
+        toolbar.setItems([flexibleSpace, clearButton, doneButton], animated: true)
         
         self.inputAccessoryView = toolbar
+    }
+
+    @objc func clearDate() {
+        self.text = nil
+        sendActions(for: .editingChanged)
+        resignFirstResponder()
     }
     
     func setDate(from datePicker: UIDatePicker) {

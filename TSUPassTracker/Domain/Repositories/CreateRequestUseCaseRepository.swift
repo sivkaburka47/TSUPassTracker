@@ -7,5 +7,6 @@
 
 protocol CreateRequestRepository {
     func createRequest(request: RequestCreateDTO) async throws -> CreateRequestResponse
+    func updateRequest(requestId: String, request: RequestUpdateModel) async throws -> UpdateRequestResponse
 }
 

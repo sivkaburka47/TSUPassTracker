@@ -121,7 +121,8 @@ final class AddRequestViewController: UIViewController {
     }
     
     private func configureAddButton() {
-        addButton.setTitle("Создать заявку", for: .normal)
+        let title = viewModel.mode.isEdit ? "Сохранить изменения" : "Создать заявку"
+        addButton.setTitle(title, for: .normal)
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         view.addSubview(addButton)
         addButton.snp.makeConstraints {
@@ -156,9 +157,12 @@ final class AddRequestViewController: UIViewController {
     private func updateFileDisplay() {
         filesStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
+        let isDeletable = viewModel.request.confirmationType != .educational
+        
         viewModel.request.files.forEach { file in
             let fileView = FileItemView(
                 fileData: file,
+                isDeletable: isDeletable,
                 onDelete: { [weak self] in
                     self?.viewModel.removeFile(file)
                     self?.updateFileDisplay()
@@ -196,6 +200,88 @@ final class AddRequestViewController: UIViewController {
         viewModel.onSuccess = {
             self.closeButtonTapped()
         }
+        
+//        viewModel.onRequestUpdated = { [weak self] in
+//            self?.updateUI()
+//            self?.updateDateToFieldStyle()
+//        }
+        
+        viewModel.onRequestUpdated = { [weak self] in
+            DispatchQueue.main.async {
+                print("onRequestUpdated called on main thread, dateTo: \(String(describing: self?.viewModel.request.dateTo))")
+                self?.updateUI()
+            }
+        }
+    }
+    
+    private func updateUI() {
+        print("updateUI called, dateTo: \(String(describing: viewModel.request.dateTo))")
+        
+        if viewModel.mode.isEdit {
+            sizeButton.isUserInteractionEnabled = false
+            sizeButton.alpha = 0.6
+        } else {
+            sizeButton.isUserInteractionEnabled = true
+            sizeButton.alpha = 1.0
+        }
+        
+        switch viewModel.request.confirmationType {
+        case .medical:
+            sizeButton.smallButtonTapped()
+        case .family:
+            sizeButton.mediumButtonTapped()
+        case .educational:
+            sizeButton.largeButtonTapped()
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        dateFormatter.dateFormat = "d MMMM yyyy"
+        
+        if let dateFrom = viewModel.request.dateFrom {
+            dateFromTextField.text = dateFormatter.string(from: dateFrom)
+            if let datePicker = dateFromTextField.inputView as? UIDatePicker {
+                datePicker.date = dateFrom
+            }
+        }
+        
+        if let dateTo = viewModel.request.dateTo {
+            print("✅ dateTo НЕ nil, значение: \(dateTo)")
+            dateToTextField.text = dateFormatter.string(from: dateTo)
+            if let datePicker = dateToTextField.inputView as? UIDatePicker {
+                print("DatePicker updated with date: \(dateTo)")
+                datePicker.date = dateTo
+            } else {
+                print("⚠️ dateToTextField.inputView is not a UIDatePicker")
+            }
+        } else {
+            print("⚠️ dateTo равно nil, поле не обновляется")
+        }
+        updateFileDisplay()
+        
+        if viewModel.mode.isEdit {
+            checkEditPermissions()
+        }
+    }
+    
+    private func checkEditPermissions() {
+        guard viewModel.request.confirmationType == .educational else { return }
+        
+        let alert = UIAlertController(
+            title: "Редактирование запрещено",
+            message: "Редактирование учебных заявок доступно только сотрудникам деканата",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true)
+        
+ 
+        [sizeButton, dateFromTextField, dateToTextField].forEach {
+            $0.isUserInteractionEnabled = false
+            $0.alpha = 0.6
+        }
+        addFileButton.isHidden = true
+        addButton.isHidden = true
     }
     
     private func updateDateToFieldStyle() {
@@ -203,9 +289,17 @@ final class AddRequestViewController: UIViewController {
         let newStyle: CustomTextField.TextFieldStyle = isMedical ? .date(.dateToOptional) : .date(.dateTo)
         
         if dateToTextField.textFieldStyle != newStyle {
+            let currentDateTo = viewModel.request.dateTo
+            
             dateToTextField.updateStyle(newStyle)
-            dateToTextField.text = nil
-            viewModel.updateDateTo(nil)
+            
+            if let currentDateTo = currentDateTo {
+                viewModel.updateDateTo(currentDateTo)
+                let dateFormatter = DateFormatter()
+                dateFormatter.locale = Locale(identifier: "ru_RU")
+                dateFormatter.dateFormat = "d MMMM yyyy"
+                dateToTextField.text = dateFormatter.string(from: currentDateTo)
+            }
         }
     }
     
@@ -243,7 +337,11 @@ final class AddRequestViewController: UIViewController {
     
     @objc private func dateToChanged() {
         guard let datePicker = dateToTextField.inputView as? UIDatePicker else { return }
-        viewModel.updateDateTo(datePicker.date)
+        if dateToTextField.text?.isEmpty == true {
+            viewModel.updateDateTo(nil)
+        } else {
+            viewModel.updateDateTo(datePicker.date)
+        }
     }
     
     @objc private func closeButtonTapped() {
@@ -252,7 +350,12 @@ final class AddRequestViewController: UIViewController {
     }
     
     @objc private func addButtonTapped() {
-        viewModel.createRequest()
+        switch viewModel.mode {
+        case .create:
+            viewModel.createRequest()
+        case .edit:
+            viewModel.updateRequest()
+        }
     }
 }
 
@@ -346,7 +449,7 @@ extension AddRequestViewController {
 // MARK: - Navigation Setup
 extension AddRequestViewController {
     private func setupNavigationBar() {
-        title = "Новая заявка"
+        title = viewModel.mode.navigationTitle
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             title: "Отмена",
             style: .plain,

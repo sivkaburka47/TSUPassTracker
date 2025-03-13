@@ -7,8 +7,6 @@
 
 import UIKit
 
-
-
 class SplitButton: UIView {
     
     enum ButtonStyle {
@@ -94,21 +92,21 @@ class SplitButton: UIView {
         }
     }
     
-    @objc private func smallButtonTapped() {
+    @objc func smallButtonTapped() {
         smallButton.toggleStyle(.white)
         mediumButton.toggleStyle(.gray)
         largeButton.toggleStyle(.gray)
         onSizeSelected?("Медицинская")
     }
     
-    @objc private func mediumButtonTapped() {
+    @objc func mediumButtonTapped() {
         smallButton.toggleStyle(.gray)
         mediumButton.toggleStyle(.white)
         largeButton.toggleStyle(.gray)
         onSizeSelected?("Семейная")
     }
     
-    @objc private func largeButtonTapped() {
+    @objc func largeButtonTapped() {
         smallButton.toggleStyle(.gray)
         mediumButton.toggleStyle(.gray)
         largeButton.toggleStyle(.white)

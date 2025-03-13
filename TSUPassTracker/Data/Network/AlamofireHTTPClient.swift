@@ -71,7 +71,10 @@ final class AlamofireHTTPClient: HTTPClient {
         }
     }
     
-    func sendMultipartRequest<T: Decodable>(endpoint: APIEndpoint, multipartData: RequestCreateDTO) async throws -> T {
+    func sendMultipartRequest<T: Decodable, U: MultipartDataConvertible>(
+        endpoint: APIEndpoint,
+        multipartData: U
+    ) async throws -> T {
         let url = baseURL.baseURL + endpoint.path
         let method = endpoint.method
         let headers = endpoint.headers
@@ -79,14 +82,14 @@ final class AlamofireHTTPClient: HTTPClient {
         return try await withCheckedThrowingContinuation { continuation in
             AF.upload(
                 multipartFormData: { multipartFormData in
-                    self.configureMultipartData(multipartFormData, with: multipartData)
+                    multipartData.configureMultipartData(multipartFormData)
                 },
                 to: url,
                 method: method,
                 headers: headers
             )
             .validate()
-            .response() { response in
+            .response { response in
                 self.log(response)
             }
             .responseDecodable(of: T.self) { response in
@@ -123,6 +126,12 @@ final class AlamofireHTTPClient: HTTPClient {
                     code: statusCode,
                     userInfo: [NSLocalizedDescriptionKey: "Упс, неверный логин или пароль.\nПопробуйте снова.."]
                 )
+            case 403:
+                return NSError(
+                    domain: "",
+                    code: statusCode,
+                    userInfo: [NSLocalizedDescriptionKey: "Упс, видимо у вас нет прав для данного действия."]
+                )
             default:
                 break
             }
@@ -152,37 +161,6 @@ final class AlamofireHTTPClient: HTTPClient {
         return error as NSError
     }
     
-    private func configureMultipartData(_ formData: MultipartFormData, with data: RequestCreateDTO) {
-        formData.append(
-            data.dateFrom.data(using: .utf8)!,
-            withName: "DateFrom",
-            mimeType: "text/plain"
-        )
-        
-        if let dateTo = data.dateTo {
-            formData.append(
-                Data(dateTo.utf8),
-                withName: "DateTo",
-                mimeType: "text/plain"
-            )
-        }
-        
-        let typeString = data.confirmationType.rawValue
-        formData.append(
-            Data(typeString.utf8),
-            withName: "ConfirmationType",
-            mimeType: "text/plain"
-        )
-        
-        for file in data.files {
-            formData.append(
-                file.data,
-                withName: "Files",
-                fileName: file.fileName,
-                mimeType: file.mimeType
-            )
-        }
-    }
     
     private func extractErrorMessage(from errorResponse: ErrorResponse) -> String {
         if let message = errorResponse.message {

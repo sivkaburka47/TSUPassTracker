@@ -61,6 +61,11 @@
 		E657725B2D81D32D00C5F035 /* CreateRequestRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E657725A2D81D32D00C5F035 /* CreateRequestRepositoryImpl.swift */; };
 		E657725D2D81D46100C5F035 /* CreateRequestUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E657725C2D81D46100C5F035 /* CreateRequestUseCase.swift */; };
 		E657725F2D81D51100C5F035 /* CreateRequestUseCaseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E657725E2D81D51100C5F035 /* CreateRequestUseCaseRepository.swift */; };
+		E65772612D82C15700C5F035 /* GetRequestByIdEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65772602D82C15700C5F035 /* GetRequestByIdEndpoint.swift */; };
+		E65772632D82C36300C5F035 /* RequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65772622D82C36300C5F035 /* RequestModel.swift */; };
+		E65772652D82C56900C5F035 /* GetRequestByIdUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65772642D82C56900C5F035 /* GetRequestByIdUseCase.swift */; };
+		E65772672D82C9D200C5F035 /* UpdateRequestEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65772662D82C9D200C5F035 /* UpdateRequestEndPoint.swift */; };
+		E65772692D82CFC000C5F035 /* UpdateRequestUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65772682D82CFC000C5F035 /* UpdateRequestUseCase.swift */; };
 		E65CC52E2D79827E00010AAD /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC52D2D79827E00010AAD /* ProfileCoordinator.swift */; };
 		E65CC5302D79828A00010AAD /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC52F2D79828A00010AAD /* MainCoordinator.swift */; };
 		E65CC5322D79829900010AAD /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65CC5312D79829900010AAD /* ProfileViewModel.swift */; };
@@ -145,6 +150,11 @@
 		E657725A2D81D32D00C5F035 /* CreateRequestRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRequestRepositoryImpl.swift; sourceTree = "<group>"; };
 		E657725C2D81D46100C5F035 /* CreateRequestUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRequestUseCase.swift; sourceTree = "<group>"; };
 		E657725E2D81D51100C5F035 /* CreateRequestUseCaseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRequestUseCaseRepository.swift; sourceTree = "<group>"; };
+		E65772602D82C15700C5F035 /* GetRequestByIdEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetRequestByIdEndpoint.swift; sourceTree = "<group>"; };
+		E65772622D82C36300C5F035 /* RequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModel.swift; sourceTree = "<group>"; };
+		E65772642D82C56900C5F035 /* GetRequestByIdUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetRequestByIdUseCase.swift; sourceTree = "<group>"; };
+		E65772662D82C9D200C5F035 /* UpdateRequestEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateRequestEndPoint.swift; sourceTree = "<group>"; };
+		E65772682D82CFC000C5F035 /* UpdateRequestUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateRequestUseCase.swift; sourceTree = "<group>"; };
 		E65CC52D2D79827E00010AAD /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		E65CC52F2D79828A00010AAD /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		E65CC5312D79829900010AAD /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
@@ -284,6 +294,8 @@
 				E657722B2D7CD18F00C5F035 /* UserDataEndpoint.swift */,
 				E65772352D7D7F9C00C5F035 /* UserAllRequestsEndpoint.swift */,
 				E65772582D81A67D00C5F035 /* CreateRequestEndpoint.swift */,
+				E65772602D82C15700C5F035 /* GetRequestByIdEndpoint.swift */,
+				E65772662D82C9D200C5F035 /* UpdateRequestEndPoint.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -310,6 +322,8 @@
 				E65772312D7CD22D00C5F035 /* GetUserDataUseCase.swift */,
 				E657723D2D7D859B00C5F035 /* GetUserAllRequestsUseCase.swift */,
 				E657725C2D81D46100C5F035 /* CreateRequestUseCase.swift */,
+				E65772642D82C56900C5F035 /* GetRequestByIdUseCase.swift */,
+				E65772682D82CFC000C5F035 /* UpdateRequestUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -483,6 +497,7 @@
 				E65772232D7B258F00C5F035 /* ValidationErrorResponse.swift */,
 				E65772272D7CD02C00C5F035 /* UserModel.swift */,
 				E65772332D7D7E9B00C5F035 /* LightRequestDTO.swift */,
+				E65772622D82C36300C5F035 /* RequestModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -567,6 +582,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E65772612D82C15700C5F035 /* GetRequestByIdEndpoint.swift in Sources */,
 				E65CC5462D7AB66E00010AAD /* UIView + ext.swift in Sources */,
 				E65772592D81A67D00C5F035 /* CreateRequestEndpoint.swift in Sources */,
 				E65772572D81A38A00C5F035 /* RequestDTO.swift in Sources */,
@@ -615,12 +631,15 @@
 				E6B85F102D6C5D5600B453BA /* Coordinator.swift in Sources */,
 				E6B85F282D6C701600B453BA /* SignInViewController.swift in Sources */,
 				E65CC5422D7A23B500010AAD /* RegisterCredentials.swift in Sources */,
+				E65772672D82C9D200C5F035 /* UpdateRequestEndPoint.swift in Sources */,
 				E65772302D7CD21700C5F035 /* UserData.swift in Sources */,
 				E6B85F1F2D6C618B00B453BA /* MainViewModel.swift in Sources */,
+				E65772692D82CFC000C5F035 /* UpdateRequestUseCase.swift in Sources */,
 				E65CC5382D798DBC00010AAD /* SignUpViewController.swift in Sources */,
 				E657722E2D7CD1D500C5F035 /* GetUserDataRepository.swift in Sources */,
 				E6B85F252D6C6EDA00B453BA /* LoginCredentials.swift in Sources */,
 				E657722C2D7CD18F00C5F035 /* UserDataEndpoint.swift in Sources */,
+				E65772632D82C36300C5F035 /* RequestModel.swift in Sources */,
 				E65772172D7AE4D500C5F035 /* SignInRepository.swift in Sources */,
 				E65772152D7AE4C800C5F035 /* SignUpRepository.swift in Sources */,
 				E657724C2D80B4AB00C5F035 /* RequestCreate.swift in Sources */,
@@ -637,6 +656,7 @@
 				E65772242D7B258F00C5F035 /* ValidationErrorResponse.swift in Sources */,
 				E65772092D7AE2F700C5F035 /* UserRegisterEndpoint.swift in Sources */,
 				E65772402D7F19B200C5F035 /* RequestCardView.swift in Sources */,
+				E65772652D82C56900C5F035 /* GetRequestByIdUseCase.swift in Sources */,
 				E65771FE2D7AE0D800C5F035 /* EmptyRequestModel.swift in Sources */,
 				E65CC52E2D79827E00010AAD /* ProfileCoordinator.swift in Sources */,
 				E65771FC2D7AE08A00C5F035 /* String + Ext.swift in Sources */,
