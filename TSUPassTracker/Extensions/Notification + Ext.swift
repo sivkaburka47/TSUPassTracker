@@ -9,5 +9,6 @@ import Foundation
 
 extension Notification.Name {
     static let unauthorizedErrorOccurred = Notification.Name("unauthorizedErrorOccurred")
+    static let requestAdded = Notification.Name("requestAdded")
 }
 

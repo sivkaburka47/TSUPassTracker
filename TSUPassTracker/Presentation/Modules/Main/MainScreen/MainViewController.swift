@@ -30,7 +30,9 @@ final class MainScreenViewController: UIViewController {
         setupUI()
         setupBindings()
         viewModel.onDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshData), name: .requestAdded, object: nil)
     }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -87,6 +89,7 @@ final class MainScreenViewController: UIViewController {
             self?.updateUI(with: userRequests)
         }
     }
+
     
     private func updateUI(with userRequests: ListLightRequests) {
         DispatchQueue.main.async { [weak self] in
@@ -131,7 +134,7 @@ final class MainScreenViewController: UIViewController {
     }
     
     private func configureAddButton() {
-        addButton.setTitle("Создать заявку", for: .normal)
+        addButton.setTitle("Добавить заявку", for: .normal)
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         view.addSubview(addButton)
         addButton.snp.makeConstraints {
@@ -142,5 +145,9 @@ final class MainScreenViewController: UIViewController {
     
     @objc private func addButtonTapped() {
         viewModel.addNote()
+    }
+    
+    @objc private func refreshData() {
+        viewModel.onDidLoad()
     }
 }

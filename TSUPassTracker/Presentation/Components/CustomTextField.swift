@@ -21,10 +21,13 @@ final class CustomTextField: UITextField {
         
         enum Date {
             case dateOfBirth
+            case dateFrom
+            case dateTo
+            case dateToOptional
         }
     }
     
-    enum TextFieldStyle {
+    enum TextFieldStyle: Equatable {
         case information(PlaceholderText.Information)
         case password(PlaceholderText.Password)
         case date(PlaceholderText.Date)
@@ -42,6 +45,7 @@ final class CustomTextField: UITextField {
         configureTextField()
     }
     
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -57,9 +61,16 @@ final class CustomTextField: UITextField {
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return textRect(forBounds: bounds)
     }
+    
+    func updateStyle(_ newStyle: TextFieldStyle) {
+        self.textFieldStyle = newStyle
+        configurePlaceholderText()
+        configureTextField()
+    }
 }
 
 private extension CustomTextField {
+    
     func configureTextField() {
         layer.cornerRadius = 8
         backgroundColor = UIColor.systemGray6
@@ -81,6 +92,8 @@ private extension CustomTextField {
         switch textFieldStyle {
         case .password:
             isSecureTextEntry = true
+        case .date:
+            configureDatePicker(target: self, selector: #selector(doneButtonPressed))
         default:
             break
         }
@@ -134,6 +147,9 @@ private extension CustomTextField {
     }
     
     @objc func doneButtonPressed() {
+        if let datePicker = self.inputView as? UIDatePicker {
+            setDate(from: datePicker)
+        }
         resignFirstResponder()
     }
     
@@ -182,6 +198,12 @@ private extension CustomTextField {
         switch date {
         case .dateOfBirth:
             return "Date of Birth"
+        case .dateFrom:
+            return "Дата начала"
+        case .dateTo:
+            return "Дата окончания"
+        case .dateToOptional:
+            return "Дата окончания (необязательно)"
         }
     }
 }
@@ -215,3 +237,7 @@ extension CustomTextField: UITextFieldDelegate {
         }
     }
 }
+
+extension CustomTextField.PlaceholderText.Information: Equatable {}
+extension CustomTextField.PlaceholderText.Password: Equatable {}
+extension CustomTextField.PlaceholderText.Date: Equatable {}

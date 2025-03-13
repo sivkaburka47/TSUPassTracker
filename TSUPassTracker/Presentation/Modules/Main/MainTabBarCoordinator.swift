@@ -106,6 +106,7 @@ final class MainTabBarCoordinator: ParentCoordinator {
     }
     
     @objc private func handleUnauthorizedError() {
+        navigationController.dismiss(animated: false)
         authService.logout()
         parentCoordinator?.childDidFinish(self)
         

@@ -47,7 +47,7 @@ enum RequestStatusEntity: String {
     case approved = "Принято"
     case rejected = "Отклонено"
     
-    init(from requestStatus: RequestStatusEntity) {
+    init(from requestStatus: RequestStatus) {
         switch requestStatus {
         case .pending:
             self = .pending
@@ -62,9 +62,9 @@ enum RequestStatusEntity: String {
 enum ConfirmationTypeEntity: String {
     case medical = "Медицинская"
     case family = "Семейная"
-    case educational = "Образовательная"
+    case educational = "Учебная"
     
-    init(from confirmationType: ConfirmationTypeEntity) {
+    init(from confirmationType: ConfirmationType) {
         switch confirmationType {
         case .medical:
             self = .medical
