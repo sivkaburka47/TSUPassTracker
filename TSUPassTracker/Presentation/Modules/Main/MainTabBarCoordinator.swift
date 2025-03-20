@@ -40,10 +40,17 @@ final class MainTabBarCoordinator: ParentCoordinator {
     }
     
     private func setupTabs() {
-        tabBarController.viewControllers = [
-            createMainFlow(),
-            createProfileFlow()
-        ]
+        guard let roles = authService.getUserRoles() else { return }
+        
+        var controllers = [UIViewController]()
+        
+        if roles.contains("Student") {
+            controllers.append(createMainFlow())
+        }
+        
+        controllers.append(createProfileFlow())
+        
+        tabBarController.viewControllers = controllers
     }
     
     private func createMainFlow() -> UINavigationController {
