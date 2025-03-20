@@ -36,16 +36,29 @@ final class MainScreenViewController: UIViewController {
         setupFilterActions()
         viewModel.onDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(refreshData), name: .requestAdded, object: nil)
+        updateAddButtonState()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        viewModel.onDidLoad()
+        
+        updateAddButtonState()
     }
+
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    private func updateAddButtonState() {
+        if let isConfirmed = UserDefaults.standard.object(forKey: "isConfirmed") as? Bool {
+            addButton.isHidden = !isConfirmed
+        } else {
+            addButton.isHidden = true
+        }
     }
     
     private func setupUI() {
@@ -72,7 +85,7 @@ final class MainScreenViewController: UIViewController {
             make.leading.trailing.equalTo(view).inset(12)
             make.bottom.equalToSuperview().offset(-96)
         }
-        
+
         configureAddButton()
     }
     

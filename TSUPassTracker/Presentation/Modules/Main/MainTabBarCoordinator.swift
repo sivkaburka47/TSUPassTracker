@@ -44,11 +44,12 @@ final class MainTabBarCoordinator: ParentCoordinator {
         
         var controllers = [UIViewController]()
         
+        controllers.append(createProfileFlow())
+        
         if roles.contains("Student") {
             controllers.append(createMainFlow())
         }
         
-        controllers.append(createProfileFlow())
         
         tabBarController.viewControllers = controllers
     }

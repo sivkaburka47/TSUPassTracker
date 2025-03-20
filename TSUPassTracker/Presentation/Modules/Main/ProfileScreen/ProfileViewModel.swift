@@ -25,6 +25,7 @@ final class ProfileViewModel {
         Task {
             do {
                 userData = try await fetchUserData()
+                UserDefaults.standard.set(userData.isConfirmed, forKey: "isConfirmed")
                 onDidLoadUserData?(userData)
             } catch {
             }

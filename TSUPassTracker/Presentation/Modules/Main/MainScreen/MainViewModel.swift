@@ -34,19 +34,27 @@ final class MainScreenViewModel {
     }
     
     func onDidLoad() {
-        Task {
-            do {
-                userRequests = try await fetchUserRequests(
-                                    confirmationType: selectedConfirmationType,
-                                    status: selectedStatus,
-                                    sort: selectedSort,
-                                    page: 1,
-                                    size: 1000
-                                )
-                onDidLoadUserRequests?(userRequests)
-            } catch let error as NSError {
+        if let isConfirmed = UserDefaults.standard.object(forKey: "isConfirmed") as? Bool {
+            if isConfirmed {
+                Task {
+                    do {
+                        userRequests = try await fetchUserRequests(
+                                            confirmationType: selectedConfirmationType,
+                                            status: selectedStatus,
+                                            sort: selectedSort,
+                                            page: 1,
+                                            size: 1000
+                                        )
+                        onDidLoadUserRequests?(userRequests)
+                    } catch let error as NSError {
+                    }
+                }
+            }
+            else {
+                onDidLoadUserRequests?(ListLightRequests())
             }
         }
+
     }
     
     
