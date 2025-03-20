@@ -18,17 +18,28 @@ final class MainScreenViewModel {
     
     var onDidLoadUserRequests: ((ListLightRequests) -> Void)?
     
+    var selectedConfirmationType: ConfirmationType?
+        var selectedStatus: RequestStatus?
+        var selectedSort: SortEnum?
+    
     init() {
         self.getUserAllRequestsUseCase = GetUserAllRequestsUseCaseImpl.create()
+    }
+    
+    func updateFilters(confirmationType: ConfirmationType?, status: RequestStatus?, sort: SortEnum?) {
+        selectedConfirmationType = confirmationType
+        selectedStatus = status
+        selectedSort = sort
+        onDidLoad()
     }
     
     func onDidLoad() {
         Task {
             do {
                 userRequests = try await fetchUserRequests(
-                                    confirmationType: nil,
-                                    status: nil,
-                                    sort: nil,
+                                    confirmationType: selectedConfirmationType,
+                                    status: selectedStatus,
+                                    sort: selectedSort,
                                     page: 1,
                                     size: 1000
                                 )
@@ -122,7 +133,6 @@ final class MainScreenViewModel {
     
     func saveFiles(id: String) {
         print("Скачивание файлов для запроса с ID: \(id)")
-        // Логика скачивания
         DispatchQueue.main.async {
             self.showEditRequest?(id)
         }

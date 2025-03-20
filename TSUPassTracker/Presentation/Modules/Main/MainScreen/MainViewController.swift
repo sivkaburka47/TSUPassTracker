@@ -16,6 +16,10 @@ final class MainScreenViewController: UIViewController {
     private let stackView = UIStackView()
     private let addButton = CustomButton(style: .filled)
     
+    private let confirmationTypeSegmentedControl = UISegmentedControl(items: ["Все", "Медицинская", "Семейная", "Учебная"])
+    private let statusSegmentedControl = UISegmentedControl(items: ["Все", "В ожидании", "Принята", "Отклонена"])
+    private let sortSegmentedControl = UISegmentedControl(items: ["Новые", "Старые"])
+    
     init(viewModel: MainScreenViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -29,10 +33,10 @@ final class MainScreenViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupBindings()
+        setupFilterActions()
         viewModel.onDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(refreshData), name: .requestAdded, object: nil)
     }
-
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -55,6 +59,7 @@ final class MainScreenViewController: UIViewController {
         }
         
         setupTitleLabel()
+        setupFilters()
         
         stackView.axis = .vertical
         stackView.spacing = -24
@@ -63,24 +68,56 @@ final class MainScreenViewController: UIViewController {
         
         scrollView.addSubview(stackView)
         stackView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(24)
+            make.top.equalTo(sortSegmentedControl.snp.bottom).offset(24)
             make.leading.trailing.equalTo(view).inset(12)
             make.bottom.equalToSuperview().offset(-96)
         }
         
         configureAddButton()
     }
-
+    
     private func setupTitleLabel() {
         titleLabel.text = "Мои заявки"
         titleLabel.font = .systemFont(ofSize: 36, weight: .regular)
         titleLabel.textColor = .black
         
         scrollView.addSubview(titleLabel)
-        
         titleLabel.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.top.equalToSuperview().inset(24)
+        }
+    }
+    
+    private func setupFilters() {
+        let filterStackView = UIStackView()
+        filterStackView.axis = .vertical
+        filterStackView.spacing = 12
+
+        let confirmationLabel = UILabel()
+        confirmationLabel.text = "Тип подтверждения"
+        confirmationLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        filterStackView.addArrangedSubview(confirmationLabel)
+        confirmationTypeSegmentedControl.selectedSegmentIndex = 0
+        filterStackView.addArrangedSubview(confirmationTypeSegmentedControl)
+        
+        let statusLabel = UILabel()
+        statusLabel.text = "Статус"
+        statusLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        filterStackView.addArrangedSubview(statusLabel)
+        statusSegmentedControl.selectedSegmentIndex = 0
+        filterStackView.addArrangedSubview(statusSegmentedControl)
+        
+        let sortLabel = UILabel()
+        sortLabel.text = "Сортировка"
+        sortLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        filterStackView.addArrangedSubview(sortLabel)
+        sortSegmentedControl.selectedSegmentIndex = 0
+        filterStackView.addArrangedSubview(sortSegmentedControl)
+        
+        scrollView.addSubview(filterStackView)
+        filterStackView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(24)
+            make.leading.trailing.equalTo(view).inset(24)
         }
     }
     
@@ -89,7 +126,41 @@ final class MainScreenViewController: UIViewController {
             self?.updateUI(with: userRequests)
         }
     }
-
+    
+    private func setupFilterActions() {
+        confirmationTypeSegmentedControl.addTarget(self, action: #selector(filterChanged), for: .valueChanged)
+        statusSegmentedControl.addTarget(self, action: #selector(filterChanged), for: .valueChanged)
+        sortSegmentedControl.addTarget(self, action: #selector(filterChanged), for: .valueChanged)
+    }
+    
+    @objc private func filterChanged() {
+        let confirmationType: ConfirmationType?
+        switch confirmationTypeSegmentedControl.selectedSegmentIndex {
+        case 0: confirmationType = nil
+        case 1: confirmationType = .medical
+        case 2: confirmationType = .family
+        case 3: confirmationType = .educational
+        default: confirmationType = nil
+        }
+        
+        let status: RequestStatus?
+        switch statusSegmentedControl.selectedSegmentIndex {
+        case 0: status = nil
+        case 1: status = .pending
+        case 2: status = .approved
+        case 3: status = .rejected
+        default: status = nil
+        }
+        
+        let sort: SortEnum?
+        switch sortSegmentedControl.selectedSegmentIndex {
+        case 0: sort = .createdDesc
+        case 1: sort = .createdAsc
+        default: sort = nil
+        }
+        
+        viewModel.updateFilters(confirmationType: confirmationType, status: status, sort: sort)
+    }
     
     private func updateUI(with userRequests: ListLightRequests) {
         DispatchQueue.main.async { [weak self] in
@@ -97,9 +168,9 @@ final class MainScreenViewController: UIViewController {
             
             self.stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
             
-            if userRequests.listLightRequests.count == 0 {
+            if userRequests.listLightRequests.isEmpty {
                 let emptyLabel = UILabel()
-                emptyLabel.text = "Пока здесь пусто 🧐\nСоздайте свою первую заявку!"
+                emptyLabel.text = "Пока здесь пусто 🧐"
                 emptyLabel.font = .systemFont(ofSize: 18, weight: .medium)
                 emptyLabel.textColor = .systemGray
                 emptyLabel.numberOfLines = 0
@@ -118,7 +189,6 @@ final class MainScreenViewController: UIViewController {
                     $0.centerY.equalToSuperview()
                     $0.leading.trailing.equalToSuperview().inset(20)
                 }
-                
             } else {
                 for request in userRequests.listLightRequests {
                     let cardView = RequestCardView(request: request)
