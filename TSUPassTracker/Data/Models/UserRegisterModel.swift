@@ -8,6 +8,7 @@
 struct UserRegisterModel: Codable {
     let name: String
     let login: String
+    let roles: [Role]
     let password: String
     let group: String
 }

@@ -128,6 +128,7 @@ final class SignUpViewModel: SignUpViewModelProtocol {
             let requestBody = UserRegisterModel(
                 name: "\(credentials.surname) \(credentials.name) \(credentials.middlename)",
                 login: credentials.username,
+                roles: [Role.student],
                 password: credentials.password,
                 group: credentials.group
             )
