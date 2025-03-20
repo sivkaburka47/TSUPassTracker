@@ -7,6 +7,19 @@
 
 import Foundation
 
+struct LightRequestsPagedListModel : Codable
+{
+    let requests: ListLightRequestsDTO
+    let pagination: PageInfoModel
+}
+
+struct PageInfoModel: Codable
+{
+    let size: Int
+    let count: Int
+    let current: Int
+}
+
 struct ListLightRequestsDTO: Codable {
     let listLightRequests: [LightRequestDTO]
 }
@@ -31,4 +44,9 @@ enum ConfirmationType: String, Codable {
     case medical = "Medical"
     case family = "Family"
     case educational = "Educational"
+}
+
+enum SortEnum: String, Codable {
+    case createdAsc = "CreatedAsc"
+    case createdDesc = "CreatedDesc"
 }

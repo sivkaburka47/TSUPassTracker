@@ -6,7 +6,12 @@
 //
 
 protocol GetUserAllRequestsRepository {
-    func getUserRequests() async throws -> ListLightRequestsDTO
+    func getUserRequests( confirmationType: ConfirmationType?,
+                          status: RequestStatus?,
+                          sort: SortEnum?,
+                          page: Int,
+                          size: Int) async throws -> LightRequestsPagedListModel
+    
     func getRequestById(requestId: String) async throws -> RequestModel
 }
 

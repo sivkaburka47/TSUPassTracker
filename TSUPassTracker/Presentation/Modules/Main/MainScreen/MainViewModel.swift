@@ -25,7 +25,13 @@ final class MainScreenViewModel {
     func onDidLoad() {
         Task {
             do {
-                userRequests = try await fetchUserRequests()
+                userRequests = try await fetchUserRequests(
+                                    confirmationType: nil,
+                                    status: nil,
+                                    sort: nil,
+                                    page: 1,
+                                    size: 1000
+                                )
                 onDidLoadUserRequests?(userRequests)
             } catch let error as NSError {
             }
@@ -33,14 +39,26 @@ final class MainScreenViewModel {
     }
     
     
-    private func fetchUserRequests() async throws -> ListLightRequests {
-        do {
-            let userRequestsResponse = try await getUserAllRequestsUseCase.execute()
-            return mapToListLightRequests(userRequestsResponse)
-        } catch {
-            throw error
+    private func fetchUserRequests(
+            confirmationType: ConfirmationType?,
+            status: RequestStatus?,
+            sort: SortEnum?,
+            page: Int,
+            size: Int
+        ) async throws -> ListLightRequests {
+            do {
+                let userRequestsResponse = try await getUserAllRequestsUseCase.execute(
+                    confirmationType: confirmationType,
+                    status: status,
+                    sort: sort,
+                    page: page,
+                    size: size
+                )
+                return mapToListLightRequests(userRequestsResponse.requests)
+            } catch {
+                throw error
+            }
         }
-    }
     
     func mapToListLightRequests(_ userRequestsResponse: ListLightRequestsDTO) -> ListLightRequests {
         let dateFormatterWithMilliseconds = ISO8601DateFormatter()
@@ -102,6 +120,13 @@ final class MainScreenViewModel {
         }
     }
     
+    func saveFiles(id: String) {
+        print("Скачивание файлов для запроса с ID: \(id)")
+        // Логика скачивания
+        DispatchQueue.main.async {
+            self.showEditRequest?(id)
+        }
+    }
     func addNote() {
         print("Добавление новой заявки")
         DispatchQueue.main.async {

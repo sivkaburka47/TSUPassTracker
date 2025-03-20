@@ -6,7 +6,13 @@
 //
 
 protocol GetUserAllRequestsUseCase {
-    func execute() async throws -> ListLightRequestsDTO
+    func execute(
+        confirmationType: ConfirmationType?,
+        status: RequestStatus?,
+        sort: SortEnum?,
+        page: Int,
+        size: Int
+    ) async throws -> LightRequestsPagedListModel
 }
 
 class GetUserAllRequestsUseCaseImpl: GetUserAllRequestsUseCase {
@@ -22,13 +28,26 @@ class GetUserAllRequestsUseCaseImpl: GetUserAllRequestsUseCase {
         return GetUserAllRequestsUseCaseImpl(repository: repository)
     }
     
-    func execute() async throws -> ListLightRequestsDTO {
+    
+    func execute(
+        confirmationType: ConfirmationType?,
+        status: RequestStatus?,
+        sort: SortEnum?,
+        page: Int,
+        size: Int
+    ) async throws -> LightRequestsPagedListModel {
         do {
-            let response = try await repository.getUserRequests()
-            return response
+            return try await repository.getUserRequests(
+                confirmationType: confirmationType,
+                status: status,
+                sort: sort,
+                page: page,
+                size: size
+            )
         } catch {
             throw error
         }
     }
 }
+
 

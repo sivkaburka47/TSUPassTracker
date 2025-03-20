@@ -12,8 +12,20 @@ class GetUserAllRequestsRepositoryImpl: GetUserAllRequestsRepository {
         self.httpClient = httpClient
     }
     
-    func getUserRequests() async throws -> ListLightRequestsDTO {
-        let endpoint = UserAllRequestsEndpoint()
+    func getUserRequests(
+        confirmationType: ConfirmationType?,
+        status: RequestStatus?,
+        sort: SortEnum?,
+        page: Int,
+        size: Int
+    ) async throws -> LightRequestsPagedListModel {
+        let endpoint = UserAllRequestsEndpoint(
+            confirmationType: confirmationType,
+            status: status,
+            sort: sort,
+            page: page,
+            size: size
+        )
         return try await httpClient.sendRequest(endpoint: endpoint, requestBody: nil as EmptyRequestModel?)
     }
     
